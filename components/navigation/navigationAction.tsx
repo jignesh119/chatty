@@ -1,3 +1,4 @@
+//what happens when the user clicks the plus button on the navigation bar
 "use client";
 
 import React from "react";

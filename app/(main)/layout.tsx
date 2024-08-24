@@ -1,9 +1,9 @@
 import React from "react";
 
-import { NavigationSidebar } from "@/components/navigation/navigation-sidebar";
+import { NavigationSidebar } from "@/components/navigation/navigationSidebar";
 
 export default async function MainLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
