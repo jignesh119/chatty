@@ -1,4 +1,3 @@
-//creating a server modal
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -26,6 +25,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { UploadButton } from "@/lib/uploadthing";
+import FileUpload from "../fileUpload";
 // import { FileUpload } from "@/components/file-upload";
 
 const formSchema = z.object({
@@ -33,9 +34,11 @@ const formSchema = z.object({
   imageUrl: z.string().min(1, { message: "Server image is required." }),
 });
 
-const InitialModal: React.FC = () => {
+export function InitialModal() {
   const [isMounted, setIsMounted] = useState(false);
+
   const router = useRouter();
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +46,9 @@ const InitialModal: React.FC = () => {
       imageUrl: "",
     },
   });
+
   const isLoading = form.formState.isSubmitting;
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.post("/api/servers", values);
@@ -60,9 +65,7 @@ const InitialModal: React.FC = () => {
     setIsMounted(true);
   }, []);
 
-  //FIXME: This is a bug, the return statement should be inside the useEffect hook
-  return;
-  if (!isMounted) return <div>not mounted</div>;
+  if (!isMounted) return null;
 
   return (
     <Dialog open>
@@ -85,7 +88,13 @@ const InitialModal: React.FC = () => {
                   name="imageUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormControl></FormControl>
+                      <FormControl>
+                        <FileUpload
+                          endpoint="serverImage"
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
                     </FormItem>
                   )}
                 />
@@ -121,4 +130,4 @@ const InitialModal: React.FC = () => {
       </DialogContent>
     </Dialog>
   );
-};
+}
