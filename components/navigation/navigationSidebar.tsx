@@ -14,7 +14,6 @@ import { ModeToggle } from "@/components/mode-toggle";
 
 export async function NavigationSidebar() {
   const profile = await currentProfile();
-
   if (!profile) return redirect("/");
 
   const servers = await db.server.findMany({
