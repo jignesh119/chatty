@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { serverId: string } }
+  { params }: { params: { serverId: string } },
 ) {
   try {
     const profile = await currentProfile();
@@ -15,7 +15,7 @@ export async function PATCH(
 
     const server = await db.server.update({
       where: { id: params.serverId, profileId: profile.id },
-      data: { name, imageUrl }
+      data: { name, imageUrl },
     });
 
     return NextResponse.json(server);
@@ -27,7 +27,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { serverId: string } }
+  { params }: { params: { serverId: string } },
 ) {
   try {
     const profile = await currentProfile();
@@ -38,7 +38,7 @@ export async function DELETE(
       return new NextResponse("Server ID Missing", { status: 400 });
 
     const server = await db.server.delete({
-      where: { id: params.serverId, profileId: profile.id }
+      where: { id: params.serverId, profileId: profile.id },
     });
 
     return NextResponse.json(server);
