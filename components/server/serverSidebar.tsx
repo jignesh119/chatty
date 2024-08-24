@@ -7,7 +7,7 @@ import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 
-import ServerHeader from "@/components/server/serverHeader";
+import { ServerHeader } from "@/components/server/serverHeader";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ServerSearch from "@/components/server/serverSearch";
 import { Separator } from "@/components/ui/separator";
@@ -32,7 +32,10 @@ const roleIconMap = {
 export async function ServerSidebar({ serverId }: { serverId: string }) {
   const profile = await currentProfile();
 
-  if (!profile) return redirect("/");
+  if (!profile) {
+    console.log(`PROFILE NOT FOUND IN SIDEBAR, REDIRECT /`);
+    return redirect("/");
+  }
 
   const server = await db.server.findUnique({
     where: {
@@ -69,9 +72,14 @@ export async function ServerSidebar({ serverId }: { serverId: string }) {
     (member) => member.profileId !== profile.id,
   );
 
-  if (!server) return redirect("/");
+  if (!server) {
+    console.log(
+      `-----------no server with id ${serverId[0]} found in srvrSidebar redirecting-----------------------------`,
+    );
+    return redirect("/");
+  }
 
-  const role = server.members.find(
+  const role = await server.members.find(
     (member) => member.profileId === profile.id,
   )?.role;
 
@@ -80,46 +88,7 @@ export async function ServerSidebar({ serverId }: { serverId: string }) {
       <ServerHeader server={server} role={role} />
       <ScrollArea className="flex-1 px-3">
         <div className="mt-2">
-          <ServerSearch
-            data={[
-              {
-                label: "Text Channels",
-                type: "channel",
-                data: textChannels?.map((channel) => ({
-                  id: channel.id,
-                  name: channel.name,
-                  icon: iconMap[channel.type],
-                })),
-              },
-              {
-                label: "Voice Channels",
-                type: "channel",
-                data: audioChannels?.map((channel) => ({
-                  id: channel.id,
-                  name: channel.name,
-                  icon: iconMap[channel.type],
-                })),
-              },
-              {
-                label: "Video Channels",
-                type: "channel",
-                data: videoChannels?.map((channel) => ({
-                  id: channel.id,
-                  name: channel.name,
-                  icon: iconMap[channel.type],
-                })),
-              },
-              {
-                label: "Members",
-                type: "member",
-                data: members?.map((member) => ({
-                  id: member.id,
-                  name: member.profile.name,
-                  icon: roleIconMap[member.role],
-                })),
-              },
-            ]}
-          />
+          <ServerSearch />
         </div>
         <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
         {!!textChannels?.length && (

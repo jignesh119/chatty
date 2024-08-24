@@ -1,6 +1,6 @@
 import React from "react";
 import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
@@ -18,37 +18,27 @@ export default async function ServerIdLayout({
   if (!profile) return auth().redirectToSignIn();
 
   console.log(`server id from params ${params.serverId}`);
-  // const server = await db.server.findUnique({
-  //   where: {
-  //     id: params.serverId,
-  //     members: {
-  //       some: {
-  //         profileId: profile.id as string,
-  //       },
-  //     },
-  //   },
-  // });
-  //BUG: fix this serverId issue
-  const serverid = (params.serverId as string).split("").join();
   const server = await db.server.findUnique({
     where: {
-      id: serverid,
-      AND: {
-        members: {
-          some: {
-            profileId: profile.id as string,
-          },
+      id: params.serverId[0],
+      members: {
+        some: {
+          profileId: profile.id as string,
         },
       },
     },
   });
 
-  if (!server) return redirect("/");
+  if (!server) {
+    console.log(`----------------SERVER NOT FOUND----------`);
+    return notFound();
+  }
 
   return (
     <div className="h-full">
-      <div className="hidden md:flex h-full w-60 z-20 flex-col fixed inset-y-0">
-        <ServerSidebar serverId={params.serverId} />
+      <div className=" md:flex h-full w-60 z-20 flex-col fixed inset-y-0">
+        <ServerSidebar serverId={params.serverId[0]} />
+        {/* server side bar */}
       </div>
       <main className="h-full md:pl-60">{children}</main>
     </div>

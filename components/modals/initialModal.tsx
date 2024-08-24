@@ -54,8 +54,7 @@ export function InitialModal() {
       await axios.post("/api/servers", values);
 
       form.reset();
-      router.refresh();
-      window.location.reload();
+      router.push("/");
     } catch (error) {
       console.error(error);
     }
