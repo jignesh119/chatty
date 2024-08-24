@@ -88,7 +88,46 @@ export async function ServerSidebar({ serverId }: { serverId: string }) {
       <ServerHeader server={server} role={role} />
       <ScrollArea className="flex-1 px-3">
         <div className="mt-2">
-          <ServerSearch />
+          <ServerSearch
+            data={[
+              {
+                label: "Text Channels",
+                type: "channel",
+                data: textChannels?.map((ch) => ({
+                  id: ch.id,
+                  name: ch.name,
+                  icon: iconMap[ch.type],
+                })),
+              },
+              {
+                label: "Voice Channels",
+                type: "channel",
+                data: audioChannels?.map((ch) => ({
+                  id: ch.id,
+                  name: ch.name,
+                  icon: iconMap[ch.type],
+                })),
+              },
+              {
+                label: "Video Channels",
+                type: "channel",
+                data: videoChannels?.map((ch) => ({
+                  id: ch.id,
+                  name: ch.name,
+                  icon: iconMap[ch.type],
+                })),
+              },
+              {
+                label: "Members",
+                type: "member",
+                data: members?.map((m) => ({
+                  id: m.id,
+                  name: m.profile.name,
+                  icon: roleIconMap[m.role],
+                })),
+              },
+            ]}
+          />
         </div>
         <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
         {!!textChannels?.length && (
