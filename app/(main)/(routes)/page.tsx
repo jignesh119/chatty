@@ -1,3 +1,10 @@
+import { ModeToggle } from "@/components/mode-toggle";
+import { UserButton } from "@clerk/nextjs";
 export default function Home() {
-  return <div className="bg-red font-serif">hello chatty</div>;
+  return (
+    <div>
+      <UserButton />
+      <ModeToggle />
+    </div>
+  );
 }
