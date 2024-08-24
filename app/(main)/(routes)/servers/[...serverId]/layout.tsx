@@ -17,12 +17,27 @@ export default async function ServerIdLayout({
 
   if (!profile) return auth().redirectToSignIn();
 
+  console.log(`server id from params ${params.serverId}`);
+  // const server = await db.server.findUnique({
+  //   where: {
+  //     id: params.serverId,
+  //     members: {
+  //       some: {
+  //         profileId: profile.id as string,
+  //       },
+  //     },
+  //   },
+  // });
+  //BUG: fix this serverId issue
+  const serverid = (params.serverId as string).split("").join();
   const server = await db.server.findUnique({
     where: {
-      id: params.serverId,
-      members: {
-        some: {
-          profileId: profile.id,
+      id: serverid,
+      AND: {
+        members: {
+          some: {
+            profileId: profile.id as string,
+          },
         },
       },
     },

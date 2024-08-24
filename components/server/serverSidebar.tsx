@@ -11,9 +11,9 @@ import ServerHeader from "@/components/server/serverHeader";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ServerSearch from "@/components/server/serverSearch";
 import { Separator } from "@/components/ui/separator";
-import ServerSection from "@/components/server/serverSection";
-import ServerChannel from "@/components/server/serverChannel";
-import ServerMember from "@/components/server/serverMember";
+import { ServerSection } from "@/components/server/serverSection";
+import { ServerChannel } from "@/components/server/serverChannel";
+import { ServerMember } from "@/components/server/serverMember";
 
 const iconMap = {
   [ChannelType.TEXT]: <Hash className="mr-2 h-4 w-4" />,
