@@ -20,7 +20,7 @@ export default async function ServerIdLayout({
   console.log(`server id from params ${params.serverId}`);
   const server = await db.server.findUnique({
     where: {
-      id: params.serverId[0],
+      id: params.serverId,
       members: {
         some: {
           profileId: profile.id as string,
@@ -34,11 +34,11 @@ export default async function ServerIdLayout({
     return notFound();
   }
 
+  //TODO: add hidden in deployment
   return (
     <div className="h-full">
       <div className=" md:flex h-full w-60 z-20 flex-col fixed inset-y-0">
-        <ServerSidebar serverId={params.serverId[0]} />
-        {/* server side bar */}
+        <ServerSidebar serverId={params.serverId} />
       </div>
       <main className="h-full md:pl-60">{children}</main>
     </div>

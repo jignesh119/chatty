@@ -93,37 +93,37 @@ export async function ServerSidebar({ serverId }: { serverId: string }) {
               {
                 label: "Text Channels",
                 type: "channel",
-                data: textChannels?.map((ch) => ({
-                  id: ch.id,
-                  name: ch.name,
-                  icon: iconMap[ch.type],
+                data: textChannels?.map((channel) => ({
+                  id: channel.id,
+                  name: channel.name,
+                  icon: iconMap[channel.type],
                 })),
               },
               {
                 label: "Voice Channels",
                 type: "channel",
-                data: audioChannels?.map((ch) => ({
-                  id: ch.id,
-                  name: ch.name,
-                  icon: iconMap[ch.type],
+                data: audioChannels?.map((channel) => ({
+                  id: channel.id,
+                  name: channel.name,
+                  icon: iconMap[channel.type],
                 })),
               },
               {
                 label: "Video Channels",
                 type: "channel",
-                data: videoChannels?.map((ch) => ({
-                  id: ch.id,
-                  name: ch.name,
-                  icon: iconMap[ch.type],
+                data: videoChannels?.map((channel) => ({
+                  id: channel.id,
+                  name: channel.name,
+                  icon: iconMap[channel.type],
                 })),
               },
               {
                 label: "Members",
                 type: "member",
-                data: members?.map((m) => ({
-                  id: m.id,
-                  name: m.profile.name,
-                  icon: roleIconMap[m.role],
+                data: members?.map((member) => ({
+                  id: member.id,
+                  name: member.profile.name,
+                  icon: roleIconMap[member.role],
                 })),
               },
             ]}
