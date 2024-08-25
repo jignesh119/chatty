@@ -31,6 +31,7 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
     );
   }
 
+  //if file is pdf then display pdf file
   if (value && fileType === "pdf") {
     return (
       <div className="relative flex items-center p-2 mt-2 rounded-md bg-background/10">
