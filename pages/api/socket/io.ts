@@ -10,11 +10,12 @@ export const config = {
 };
 
 const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
-  //if we already are connected to a sckt srvr
+  //if there isnt any sckt srvr
   if (!res.socket.server.io) {
     const path = "/api/socket/io";
     const httpServer = res.socket.server as any;
     const io = new ServerIo(httpServer, {
+      //where is the server running
       path: path,
       addTrailingSlash: false,
     });
