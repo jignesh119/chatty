@@ -2,8 +2,11 @@
 
 import React, { Fragment, useRef, ElementRef } from "react";
 import { Member, Message, Profile } from "@prisma/client";
+import { Loader2, ServerCrash } from "lucide-react";
+import { format } from "date-fns";
 
 import { ChatWelcome } from "@/components/chat/chat-welcome";
+import { useChatQuery } from "@/hooks/use-chat-query";
 
 interface ChatMessagesProps {
   name: string;
@@ -36,11 +39,58 @@ export function ChatMessages({
   paramValue,
   type,
 }: ChatMessagesProps) {
-  return (
-    <div className="flex-1 flex flex-col py-4 overflow-y-auto">
-      <div className="flex-1">
-        <ChatWelcome type="channel" name={name} />
+  const queryKey = `chat:${chatId}`;
+
+  const chatRef = useRef<ElementRef<"div">>(null);
+  const bottomRef = useRef<ElementRef<"div">>(null);
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useChatQuery({
+      queryKey,
+      apiUrl,
+      paramKey,
+      paramValue,
+    });
+
+  if (status === "pending")
+    return (
+      <div className="flex flex-col flex-1 justify-center items-center">
+        <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4" />
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          Loading messages...
+        </p>
       </div>
+    );
+
+  if (status === "error")
+    return (
+      <div className="flex flex-col flex-1 justify-center items-center">
+        <ServerCrash className="h-7 w-7 text-zinc-500 my-4" />
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          Something went wrong!
+        </p>
+      </div>
+    );
+
+  return (
+    <div className="flex-1 flex flex-col py-4 overflow-y-auto" ref={chatRef}>
+      {!hasNextPage && <div className="flex-1" />}
+      {!hasNextPage && <ChatWelcome name={name} type={type} />}
+      {hasNextPage && (
+        <div className="flex justify-center">
+          {isFetchingNextPage ? (
+            <Loader2 className="h-6 w-6 text-zinc-500 animate-spin my-4" />
+          ) : (
+            <button
+              onClick={() => fetchNextPage()}
+              className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 text-xs my-4 dark:hover:text-zinc-300 transition"
+            >
+              Load previous messages
+            </button>
+          )}
+        </div>
+      )}
+      <div ref={bottomRef} />
     </div>
   );
 }
