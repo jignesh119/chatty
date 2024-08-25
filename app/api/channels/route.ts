@@ -4,6 +4,7 @@ import { MemberRole } from "@prisma/client";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 
+//add channel endpoint
 export async function POST(req: Request) {
   try {
     const profile = await currentProfile();
