@@ -6,6 +6,7 @@ import { Loader2, ServerCrash } from "lucide-react";
 import { format } from "date-fns";
 
 import { ChatWelcome } from "@/components/chat/chat-welcome";
+import { ChatItem } from "@/components/chat/chat-item";
 import { useChatQuery } from "@/hooks/use-chat-query";
 
 interface ChatMessagesProps {
@@ -40,6 +41,8 @@ export function ChatMessages({
   type,
 }: ChatMessagesProps) {
   const queryKey = `chat:${chatId}`;
+  const addKey = `chat:${chatId}:messages`;
+  const updateKey = `chat:${chatId}:messages:update`;
 
   const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
@@ -90,6 +93,27 @@ export function ChatMessages({
           )}
         </div>
       )}
+      <div className="flex flex-col-reverse mt-auto">
+        {data?.pages.map((group, index) => (
+          <Fragment key={index}>
+            {group?.items.map((message: MessagesWithMemberWithProfile) => (
+              <ChatItem
+                key={message.id}
+                currentMember={member}
+                member={message.member}
+                id={message.id}
+                content={message.content}
+                fileUrl={message.fileUrl}
+                deleted={message.deleted}
+                timestamp={format(new Date(message.createdAt), DATE_FORMAT)}
+                isUpdated={message.updatedAt !== message.createdAt}
+                socketQuery={socketQuery}
+                socketUrl={socketUrl}
+              />
+            ))}
+          </Fragment>
+        ))}
+      </div>
       <div ref={bottomRef} />
     </div>
   );

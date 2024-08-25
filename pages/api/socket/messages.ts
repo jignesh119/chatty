@@ -71,7 +71,7 @@ export default async function handler(
     //TODO: emit message to all members in the channel
     //req: key of group
     //NOTE: used in FE when creatin hooks for msgs
-    const channelKey = `server:${serverId}:channel:${channelId}`;
+    const channelKey = `chat:${channelId}:messages`;
 
     res?.socket?.server?.io.emit(channelKey, message);
 
