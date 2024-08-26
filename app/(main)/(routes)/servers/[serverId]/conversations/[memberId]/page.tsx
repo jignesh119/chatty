@@ -1,11 +1,13 @@
+//
 import { ChatHeader } from "@/components/chat/chat-header";
-import ChatMessages from "@/components/chat/chat-messages";
+import { ChatMessages } from "@/components/chat/chat-messages";
 import { ChatInput } from "@/components/chat/chat-input";
 import { getOrCreateConversation } from "@/lib/conversations";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import { redirectToSignIn } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { redirect } from "next/navigation";
 
 interface MemberIdProps {
   memberId: string;
@@ -14,7 +16,7 @@ interface MemberIdProps {
 export default async function Conversations(props: MemberIdProps) {
   const profile = await currentProfile();
   if (!profile) {
-    return redirectToSignIn();
+    return auth().redirectToSignIn();
   }
 
   const currMember = await db.member.findFirst({
@@ -22,11 +24,11 @@ export default async function Conversations(props: MemberIdProps) {
     include: { profile: true },
   });
   if (!currMember) {
-    return NextResponse.redirect(`/servers/${props.serverId}`);
+    return NextResponse.redirect(`/servers/${props?.serverId}`);
   }
 
   const convos = await getOrCreateConversation(currMember.id, profile.id);
-  if (!convos) NextResponse.redirect(`/servers/${props.serverId}`);
+  if (!convos) redirect(`/servers/${props.serverId}`);
 
   const member1 = convos?.memberOne,
     member2 = convos?.memberTwo;
@@ -47,15 +49,17 @@ export default async function Conversations(props: MemberIdProps) {
           chatId={convos?.id as string}
           type="conversation"
           apiUrl="/api/direct-messages"
+          socketUrl="/api/socket/messages/direct-messages"
+          socketQuery={{ conversationId: convos?.id as string }}
           paramKey="conversationId"
           paramValue={convos?.id as string}
         />
         <ChatInput
-          name={otherMember.profile.name}
+          name={otherMember?.profile.name as string}
           type="conversation"
           apiUrl="/api/socket/direct-messages"
           query={{
-            conversationId: conversation.id,
+            conversationId: convos?.id as string,
           }}
         />
       </>

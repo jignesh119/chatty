@@ -26,9 +26,12 @@ export const ServerMember = ({ member, server }: ServerMemberProps) => {
 
   const icon = roleIconMap[member.role];
 
-  const onClick = () =>
-    //TODO: implement this endpoint
-    router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
+  const onClick = () => {
+    //FIXME: this url invalid
+    return router.push(
+      `/servers/${params?.serverId}/conversations/${member.id}`,
+    );
+  };
 
   return (
     <button
