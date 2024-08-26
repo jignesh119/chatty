@@ -1,4 +1,4 @@
-//NOTE: socket.io eror in app router
+//NOTE: socket.io doesnt work in app router
 import { Server as NetServer } from "http";
 import { NextApiRequest } from "next";
 import { Server as ServerIo } from "socket.io";

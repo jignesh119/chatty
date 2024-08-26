@@ -29,7 +29,6 @@ export function MediaRoom({ chatId, video, audio }: MediaRoomProps) {
 
     (async () => {
       try {
-        //NOTE: room and username are different for users
         const response = await fetch(
           `/api/get-participant-token?room=${chatId}&username=${user.firstName}`,
         );

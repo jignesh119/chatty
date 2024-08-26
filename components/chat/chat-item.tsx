@@ -1,4 +1,3 @@
-//TODO:  fix messages not popping up
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -64,7 +63,6 @@ export function ChatItem({
   const onMemberClick = () => {
     if (member.id === currentMember.id) return;
 
-    //TODO: configure this endpoint
     router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
   };
 
@@ -89,7 +87,6 @@ export function ChatItem({
 
   const isLoading = form.formState.isSubmitting;
 
-  //TODO: use socket client to show real time update on screen
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
@@ -97,7 +94,6 @@ export function ChatItem({
         query: socketQuery,
       });
 
-      //TODO: configure patch req endpoint
       await axios.patch(url, values);
 
       form.reset();

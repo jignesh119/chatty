@@ -68,7 +68,6 @@ export default async function handler(
       },
       include: { member: { include: { profile: true } } },
     });
-    //TODO: emit message to all members in the channel
     //req: key of group
     //NOTE: used in FE when creatin hooks for msgs
     const channelKey = `chat:${channelId}:messages`;
@@ -77,7 +76,6 @@ export default async function handler(
 
     return res.status(200).json(message);
   } catch (error) {
-    console.log("[ERROR] pages/api/socket/messages.ts: ", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 }

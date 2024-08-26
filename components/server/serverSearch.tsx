@@ -27,7 +27,6 @@ interface ServerSearchProps {
   }[];
 }
 
-//BUG: no search results
 export function ServerSearch({ data }: ServerSearchProps) {
   const [open, setOpen] = useState(false);
 

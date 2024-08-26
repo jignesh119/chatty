@@ -36,7 +36,6 @@ export function DeleteChannelModal() {
         },
       });
 
-      //TODO: add delete channel api endpoint
       await axios.delete(url);
 
       onClose();

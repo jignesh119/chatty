@@ -1,5 +1,4 @@
 "use client";
-//TODO: thorough useModal, create new temp modal
 
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";

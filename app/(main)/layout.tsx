@@ -7,7 +7,6 @@ export default async function MainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  //TODO: add hidden prop in deployment
   return (
     <div className="h-full">
       <div className=" md:flex h-full w-[72px] z-30 flex-col fixed inset-y-0">

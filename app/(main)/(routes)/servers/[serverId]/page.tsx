@@ -33,7 +33,6 @@ export default async function ServerIdPage({ params }: ServerIdPageProps) {
       },
     },
   });
-  console.log(`HIT /SERVERS/ID PAGE REDIRECTING TO 1ST CHANNEL`);
 
   const initialChannel = server?.channels[0];
 

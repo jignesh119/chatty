@@ -17,7 +17,6 @@ export default async function ServerIdLayout({
 
   if (!profile) return auth().redirectToSignIn();
 
-  console.log(`server id from params ${params.serverId}`);
   const server = await db.server.findUnique({
     where: {
       id: params.serverId,
@@ -30,11 +29,9 @@ export default async function ServerIdLayout({
   });
 
   if (!server) {
-    console.log(`----------------SERVER NOT FOUND----------`);
     return notFound();
   }
 
-  //TODO: add hidden in deployment
   return (
     <div className="h-full">
       <div className=" md:flex h-full w-60 z-20 flex-col fixed inset-y-0">
