@@ -1,4 +1,3 @@
-//TODO: complete server page
 import React from "react";
 import { redirect } from "next/navigation";
 import { ChannelType, MemberRole } from "@prisma/client";
@@ -32,11 +31,7 @@ const roleIconMap = {
 export async function ServerSidebar({ serverId }: { serverId: string }) {
   const profile = await currentProfile();
 
-  if (!profile) {
-    console.log(`PROFILE NOT FOUND IN SIDEBAR, REDIRECT /`);
-    return redirect("/");
-  }
-  console.log(`>>>>>>>>>>>>>>IN SERVERSIDEBAR serverId- ${serverId}`);
+  if (!profile) return redirect("/");
 
   const server = await db.server.findUnique({
     where: {
@@ -73,14 +68,9 @@ export async function ServerSidebar({ serverId }: { serverId: string }) {
     (member) => member.profileId !== profile.id,
   );
 
-  if (!server) {
-    console.log(
-      `-----------no server with id ${serverId[0]} found in srvrSidebar redirecting-----------------------------`,
-    );
-    return redirect("/");
-  }
+  if (!server) return redirect("/");
 
-  const role = await server.members.find(
+  const role = server.members.find(
     (member) => member.profileId === profile.id,
   )?.role;
 
