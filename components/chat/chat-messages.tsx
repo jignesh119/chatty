@@ -18,7 +18,7 @@ interface ChatMessagesProps {
   apiUrl: string;
   socketUrl: string;
   socketQuery: Record<string, string>;
-  paramKey: "channelId" | "conversationId";
+  paramKey: "channelId" | "conversationId" | "directMessageId";
   paramValue: string;
   type: "channel" | "conversation";
 }

@@ -36,6 +36,7 @@ export async function ServerSidebar({ serverId }: { serverId: string }) {
     console.log(`PROFILE NOT FOUND IN SIDEBAR, REDIRECT /`);
     return redirect("/");
   }
+  console.log(`>>>>>>>>>>>>>>IN SERVERSIDEBAR serverId- ${serverId}`);
 
   const server = await db.server.findUnique({
     where: {

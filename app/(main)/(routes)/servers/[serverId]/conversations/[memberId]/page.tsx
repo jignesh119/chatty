@@ -13,7 +13,7 @@ interface MemberIdProps {
   memberId: string;
   serverId: string;
 }
-export default async function Conversations(props: MemberIdProps) {
+export default async function MemberIdPage(props: MemberIdProps) {
   const profile = await currentProfile();
   if (!profile) {
     return auth().redirectToSignIn();
@@ -24,10 +24,13 @@ export default async function Conversations(props: MemberIdProps) {
     include: { profile: true },
   });
   if (!currMember) {
-    return NextResponse.redirect(`/servers/${props?.serverId}`);
+    console.log(
+      `curr MEMBER NOT FOUND IN SERVER, REDIRECT /servers/${props?.serverId}`,
+    );
+    return redirect(`/`);
   }
 
-  const convos = await getOrCreateConversation(currMember.id, profile.id);
+  const convos = await getOrCreateConversation(currMember.id, props.memberId);
   if (!convos) redirect(`/servers/${props.serverId}`);
 
   const member1 = convos?.memberOne,
@@ -43,13 +46,14 @@ export default async function Conversations(props: MemberIdProps) {
         type="conversation"
       />
       <>
+        {/* FIXME: when edit btn presd req must go to socket api endpoint */}
         <ChatMessages
           member={currMember}
           name={otherMember?.profile.name as string}
           chatId={convos?.id as string}
           type="conversation"
           apiUrl="/api/direct-messages"
-          socketUrl="/api/socket/messages/direct-messages"
+          socketUrl="/api/socket/direct-messages"
           socketQuery={{ conversationId: convos?.id as string }}
           paramKey="conversationId"
           paramValue={convos?.id as string}
