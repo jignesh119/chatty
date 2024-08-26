@@ -238,7 +238,8 @@ export function ChatItem({
           <ActionTooltip label="Delete">
             <Trash
               onClick={() =>
-                //TODO: open delete msg modal
+                //NOTE: set type=deleteMessage, apiUrl,query in state
+                //hence deleteMsgModal will read from state and render that comp on screen
                 onOpen("deleteMessage", {
                   apiUrl: `${socketUrl}/${id}`,
                   query: socketQuery,
