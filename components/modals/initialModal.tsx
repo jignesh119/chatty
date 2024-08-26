@@ -54,6 +54,7 @@ export function InitialModal() {
       await axios.post("/api/servers", values);
 
       form.reset();
+      await new Promise((r) => setTimeout(r, 2000));
       router.push("/");
     } catch (error) {
       console.error(error);
