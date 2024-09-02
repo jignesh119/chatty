@@ -94,3 +94,15 @@ Contributions are welcome! Please follow these steps:
 3. Make your changes and commit them: `git commit -m 'Add some feature'`.
 4. Push to the branch: `git push origin feature-branch-name`.
 5. Submit a pull request.
+
+## Demo
+
+<img src="./assets/chattyLogin.png">
+<img src="./assets/chatty1.png">
+<img src="./assets/chatty2.png">
+<img src="./assets/chatty3.png">
+<img src="./assets/chatty4.png">
+<img src="./assets/chatty5.png">
+<img src="./assets/chatty6.png">
+<img src="./assets/chatty7.png">
+<img src="./assets/chatty8.png">
